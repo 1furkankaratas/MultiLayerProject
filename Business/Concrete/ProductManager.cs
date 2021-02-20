@@ -3,14 +3,13 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using System.Collections.Generic;
 using System.Linq;
+using Entities.DTOs;
 
 namespace Business.Concrete
 {
     public class ProductManager : IProductService
     {
-        private IProductDal _productDal;
-
-
+        private readonly IProductDal _productDal;
 
         public ProductManager(IProductDal productDal)
         {
@@ -30,6 +29,11 @@ namespace Business.Concrete
         public List<Product> GetByUnitPrice(decimal min, decimal max)
         {
             return _productDal.GetAll(x => x.UnitPrice >= min && x.UnitPrice <= max);
+        }
+
+        public List<ProductDetailDto> GetProductDetails()
+        {
+            return _productDal.GetProductDetails();
         }
     }
 }
