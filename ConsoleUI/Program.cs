@@ -7,10 +7,10 @@ namespace ConsoleUI
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             ProductManager productManager = new ProductManager(new EfProductDal());
-            CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+            //CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
 
             Product product1 = new Product
             {

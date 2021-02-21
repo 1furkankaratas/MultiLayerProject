@@ -5,7 +5,11 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System.Collections.Generic;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
+using FluentValidation;
 
 namespace Business.Concrete
 {
@@ -21,7 +25,7 @@ namespace Business.Concrete
         public IDataResult<List<Product>> GetAll()
         {
 
-            if (DateTime.Now.Hour==12)
+            if (DateTime.Now.Hour == 11)
             {
                 return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime);
             }
@@ -49,12 +53,18 @@ namespace Business.Concrete
             return new SuccessDataResult<Product>(_productDal.Get(x => x.ProductId == productId));
         }
 
+
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
-            if (product.ProductName.Length<2)
-            {
-                return new ErrorResult(Messages.ProductNameInvalid);
-            }
+            ValidationTool.Validate(new ProductValidator(), product);
+
+            _productDal.Add(product);
+            return new SuccessResult(Messages.ProductAdded);
+        }
+
+        public IResult Delete(Product product)
+        {
             _productDal.Add(product);
             return new SuccessResult(Messages.ProductAdded);
         }
