@@ -14,7 +14,7 @@
         {
         }
 
-        public SuccessDataResult() : base(default, true)
+        public SuccessDataResult(IDataResult<Entities.Concrete.User> userToCheck) : base(default, true)
         {
         }
     }
