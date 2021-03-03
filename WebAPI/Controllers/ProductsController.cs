@@ -55,6 +55,18 @@ namespace WebAPI.Controllers
 
         }
 
-        
+        [HttpPost("addtest")]
+        public IActionResult Addtest(Product product)
+        {
+            var result = _productService.AddTransactionalTest(product);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+
     }
 }
